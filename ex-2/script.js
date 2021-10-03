@@ -1,16 +1,38 @@
-const input = document.querySelector('input');
+const inputs = document.querySelectorAll("input");
 const frutas = document.querySelectorAll("li");
 
-function buscarFruta(event) {
-    if (event.code === "Enter") {
-        frutas.forEach(fruta => {
-            fruta.classList.remove("escondido");
+inputs.forEach(input => {
+    input.addEventListener("keydown", function (event) {
+        if (!teclouEnter(event.code)) {
+            return;
+        }
 
-            if (input.value && fruta.textContent !== input.value) {
-                fruta.classList.add("escondido");
-            }
-        });
+        filtrarLista(frutas, event.target.value);
+    });
 
-        input.value = "";
-    }
+    input.addEventListener("keydown", function (event) {
+        if (!teclouEnter(event.code)) {
+            return;
+        }
+
+        limparInput(event.target);
+    });
+});
+
+function teclouEnter(tecla) {
+    return tecla === "Enter";
+}
+
+function filtrarLista(lista, filtro) {
+    lista.forEach(item => {
+        item.classList.remove("escondido");
+
+        if (filtro && item.textContent !== filtro) {
+            item.classList.add("escondido");
+        }
+    });
+}
+
+function limparInput(input) {
+    input.value = "";
 }
